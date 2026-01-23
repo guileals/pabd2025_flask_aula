@@ -24,7 +24,7 @@ Sistema web para gerenciamento de funcionários desenvolvido com Flask e Bootstr
 ### 1. Criar Ambiente Virtual
 
 ```bash
-python3 -m venv venv
+python3 -m venv .venv
 ```
 
 ### 2. Ativar Ambiente Virtual
