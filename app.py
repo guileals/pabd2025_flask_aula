@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request, url_for
 from datetime import datetime
 from config.database import SupabaseConnection
 from dao.funcionario_dao import FuncionarioDAO
@@ -26,3 +26,32 @@ def index():
 def details(pk, id):
     funcionario = funcionario_dao.read(pk, id)
     return render_template("details.html", funcionario=funcionario, datetime=datetime)
+
+### Verifica se rota é GET ou POST para atualizar funcionário
+@app.route('/funcionario/edit/<string:pk>', methods=['GET', 'POST'])
+def update(pk):
+    # Se for POST (ou seja, envio do formulário)
+    if request.method == 'POST':
+        ###
+        # Aqui acontece a mágica - atualiza funcionário
+        ###
+        return redirect(url_for('index'))
+    
+    # Se for GET, apenas exibe o formulário com os dados atuais
+    funcionario = funcionario_dao.read('cpf', pk)
+    return render_template('edit.html', funcionario=funcionario, datetime=datetime)
+
+### Verifica se rota é GET ou POST para remover funcionário
+@app.route('/funcionario/delete/<string:pk>', methods=['GET', 'POST'])
+def delete(pk):
+    # Se for POST (ou seja, envio do formulário)
+    if request.method == 'POST':
+        ###
+        # Aqui acontece a mágica - exclui funcionário
+        ###
+        return redirect(url_for('index'))
+    
+    # Se for GET, apenas exibe o funcionário a ser removido
+    funcionario = funcionario_dao.read('cpf', pk)
+    return render_template('delete.html', funcionario=funcionario, datetime=datetime)
+
